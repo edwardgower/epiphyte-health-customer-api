@@ -1,0 +1,63 @@
+service: epiphyte-health-customer-api
+
+frameworkVersion: '2'
+
+plugins:
+  - serverless-bundle
+  #- serverless-pseudo-parameters
+  - serverless-domain-manager
+provider:
+  name: aws
+  runtime: nodejs14.x
+  lambdaHashingVersion: 20201221
+  region: us-west-2
+  # profile: serverless-admin
+  stage: ${opt:stage, 'dev'}
+  environment:
+    CUSTOMERS_TABLE_NAME: ${self:custom.CustomersTable.name}
+  iamRoleStatements:
+    - ${file(iam/CustomersTableIAM.yml):CustomersTableIAM}
+  httpApi:
+    cors: true
+    authorizers:
+      auth0:
+        identitySource: $request.header.Authorization
+        issuerUrl: 'https://epiphytehealth.us.auth0.com/'
+        audience: https://auth0-jwt-authorizer
+
+resources:
+  Resources:
+    CustomersTable: ${file(resources/CustomersTable.yml):CustomersTable}
+
+functions:
+  createCustomer:
+    handler: api/createCustomer.handler
+    events:
+      - httpApi:
+          method: POST
+          path: /customer
+          # authorizer: auth0
+
+  getCustomer:
+    handler: api/getCustomer.handler
+    events:
+      - httpApi:
+          method: GET
+          path: /customer/{id}
+          # authorizer: auth0
+
+  getCustomerById:
+    handler: lib/getCustomerById.getCustomerById
+
+custom:
+  customDomain:
+    domainName: 'api.epiphytehealth.com'
+    basePath: 'v1/c'
+    certificateName: '*.epiphytehealth.com'
+    stage: ${opt:stage, self:provider.stage}
+    createRoute53Record: false
+    endpointType: 'regional'
+    apiType: http
+  CustomersTable:
+    name: !Ref CustomersTable
+    arn: !GetAtt CustomersTable.Arn

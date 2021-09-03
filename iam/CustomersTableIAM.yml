@@ -1,0 +1,11 @@
+CustomersTableIAM:
+  Effect: Allow
+  Action:
+    - dynamodb:PutItem
+    - dynamodb:GetItem
+    - dynamodb:UpdateItem
+    - dynamodb:Query
+  Resource:
+    - ${self:custom.CustomersTable.arn}
+    - !Join ['/', ['${self:custom.CustomersTable.arn}', 'index', 'GSI1']]
+    - !Join ['/', ['${self:custom.CustomersTable.arn}', 'index', 'GSI2']]
