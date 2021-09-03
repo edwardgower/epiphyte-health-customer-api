@@ -36,3 +36,4 @@ CustomersTable:
         ProvisionedThroughput:
           ReadCapacityUnits: 5
           WriteCapacityUnits: 5
+      # error when trying to update with multiple GSIs works for the initial deployment only

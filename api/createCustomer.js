@@ -32,13 +32,17 @@ async function createCustomer(event, context) {
                 // add the customer item to the collection
                 PK: 'C#' + customerId,
                 SK: 'C#' + customerId,
-                ID1: 'C#' + customerId,
                 Type: 'Customer',
+                ID1: customerId,
                 ID5: email,
+                // todo add in GSI population for email (GSI2) and last name (GSI3)
                 Name2: firstName,
                 Name4: lastName,
                 Created: timeNow.toISOString(),
                 Updated: timeNow.toISOString(),
+                // GSI2 - email address - ID5 in table
+                GSI2PK: 'EM#' + email,
+                GSI2SK: 'EM#' + email,
               },
               TableName: process.env.CUSTOMERS_TABLE_NAME,
               ConditionExpression: 'attribute_not_exists(PK)',
@@ -50,7 +54,8 @@ async function createCustomer(event, context) {
               Item: {
                 PK: 'C#' + email,
                 SK: 'C#' + email,
-                ID1: 'C#' + customerId,
+                Type: 'Customer Email',
+                ID1: customerId,
                 ID5: email,
                 Created: timeNow.toISOString(),
                 Updated: timeNow.toISOString(),

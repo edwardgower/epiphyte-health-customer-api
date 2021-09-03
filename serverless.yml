@@ -46,6 +46,14 @@ functions:
           path: /customer/{id}
           # authorizer: auth0
 
+  getCustomerByEmail:
+    handler: api/getCustomerByEmail.handler
+    events:
+      - httpApi:
+          method: GET
+          path: /customer/email
+          # authorizer: auth0
+
   getCustomerById:
     handler: lib/getCustomerById.getCustomerById
 
