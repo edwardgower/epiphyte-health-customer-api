@@ -43,6 +43,8 @@ async function createCustomer(event, context) {
                 // GSI2 - email address - ID5 in table
                 GSI2PK: 'EM#' + email,
                 GSI2SK: 'EM#' + email,
+                GSI3PK: 'LN#',
+                GSI3SK: 'LN#' + lastName,
               },
               TableName: process.env.CUSTOMERS_TABLE_NAME,
               ConditionExpression: 'attribute_not_exists(PK)',

@@ -17,8 +17,7 @@ async function getCustomer(event, context) {
   } finally {
     // build the response in the schema the client expects
     body = JSON.stringify({
-      //todo remove the replace function as were pulling straight from the id field. 
-      customerId: customer.ID1.replace('C#', ''),
+      customerId: customer.ID1,
       email: customer.ID5,
       firstName: customer.Name2,
       lastName: customer.Name4,

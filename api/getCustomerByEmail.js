@@ -10,7 +10,7 @@ const dynamodb = new AWS.DynamoDB.DocumentClient();
 async function getCustomerByEmail(event, context) {
   // create the response variables
   let body;
-  let statusCode = 201;
+  let statusCode = 200;
   const headers = { 'Content-Type': 'application/json' };
   let customer;
   // parse the incoming body using middy

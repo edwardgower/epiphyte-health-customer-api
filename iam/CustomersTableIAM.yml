@@ -9,3 +9,6 @@ CustomersTableIAM:
     - ${self:custom.CustomersTable.arn}
     - !Join ['/', ['${self:custom.CustomersTable.arn}', 'index', 'GSI1']]
     - !Join ['/', ['${self:custom.CustomersTable.arn}', 'index', 'GSI2']]
+    - !Join ['/', ['${self:custom.CustomersTable.arn}', 'index', 'GSI3']]
+    - !Join ['/', ['${self:custom.CustomersTable.arn}', 'index', 'GSI4']]
+    - !Join ['/', ['${self:custom.CustomersTable.arn}', 'index', 'GSI5']]
