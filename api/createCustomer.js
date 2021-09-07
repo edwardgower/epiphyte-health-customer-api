@@ -16,6 +16,9 @@ async function createCustomer(event, context) {
 
   // parse the incoming body using middy
   const { email, firstName, lastName } = event.body;
+  // set email to lower case and create a lower case copy of lastName to use in search index
+  const emailToLower = email.toLowerCase();
+  const lastNameLower = lastName.toLowerCase();
   // create the internal consts
   const customerId = uuid();
   const timeNow = new Date();
@@ -34,17 +37,17 @@ async function createCustomer(event, context) {
                 SK: 'C#' + customerId,
                 Type: 'Customer',
                 ID1: customerId,
-                ID5: email,
+                ID5: emailToLower,
                 // todo add in GSI population for email (GSI2) and last name (GSI3)
                 Name2: firstName,
                 Name4: lastName,
                 Created: timeNow.toISOString(),
                 Updated: timeNow.toISOString(),
                 // GSI2 - email address - ID5 in table
-                GSI2PK: 'EM#' + email,
-                GSI2SK: 'EM#' + email,
+                GSI2PK: 'EM#' + emailToLower,
+                GSI2SK: 'EM#' + emailToLower,
                 GSI3PK: 'LN#',
-                GSI3SK: 'LN#' + lastName,
+                GSI3SK: 'LN#' + lastNameLower,
               },
               TableName: process.env.CUSTOMERS_TABLE_NAME,
               ConditionExpression: 'attribute_not_exists(PK)',
@@ -54,11 +57,11 @@ async function createCustomer(event, context) {
             Put: {
               // add the customers email to the collection to ensure uniqueness
               Item: {
-                PK: 'C#' + email,
-                SK: 'C#' + email,
+                PK: 'C#' + emailToLower,
+                SK: 'C#' + emailToLower,
                 Type: 'Customer Email',
                 ID1: customerId,
-                ID5: email,
+                ID5: emailToLower,
                 Created: timeNow.toISOString(),
                 Updated: timeNow.toISOString(),
               },
@@ -78,7 +81,7 @@ async function createCustomer(event, context) {
     // build the response in the schema the client expects
     body = JSON.stringify({
       customerId,
-      email,
+      emailToLower,
       firstName,
       lastName,
     });

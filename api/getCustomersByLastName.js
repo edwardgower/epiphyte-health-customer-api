@@ -15,6 +15,8 @@ async function getCustomersByLastName(event, context) {
   let customers;
   // parse the incoming body using middy
   const { lastName } = event.body;
+  // set lastName to lower case to match the index in createCustomer
+  const lastNameLower = lastName.toLowerCase();
 
   const params = {
     TableName: process.env.CUSTOMERS_TABLE_NAME,
@@ -26,7 +28,7 @@ async function getCustomersByLastName(event, context) {
     },
     ExpressionAttributeValues: {
       ':PK': 'LN#',
-      ':SK': 'LN#' + lastName,
+      ':SK': 'LN#' + lastNameLower,
     },
   };
 
