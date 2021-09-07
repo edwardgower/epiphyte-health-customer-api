@@ -15,12 +15,13 @@ async function getCustomerByEmail(event, context) {
   let customer;
   // parse the incoming body using middy
   const { email } = event.body;
+  const emailToLower = email.toLowerCase();
 
   const params = {
     TableName: process.env.CUSTOMERS_TABLE_NAME,
     IndexName: 'GSI2',
     KeyConditionExpression: 'GSI2PK = :email',
-    ExpressionAttributeValues: { ':email': 'EM#' + email },
+    ExpressionAttributeValues: { ':email': 'EM#' + emailToLower },
   };
 
   try {
