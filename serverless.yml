@@ -62,6 +62,14 @@ functions:
           path: /customers/lastname
           # authorizer: auth0
 
+  updateCustomer:
+    handler: api/updateCustomer.handler
+    events:
+      - httpApi:
+          method: PATCH
+          path: /customer/{id}
+          # authorizer: auth0
+
   getCustomerById:
     handler: lib/getCustomerById.getCustomerById
 

@@ -30,7 +30,7 @@ async function getCustomersByLastName(event, context) {
       ':PK': 'LN#',
       ':SK': 'LN#' + lastNameLower,
     },
-  };
+  }; 
 
   try {
     const result = await dynamodb.query(params).promise();
