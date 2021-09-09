@@ -3,8 +3,8 @@ import AWS from 'aws-sdk';
 import createError from 'http-errors';
 import commonMiddleware from '../lib/commonMiddleware';
 import validator from '@middy/validator';
-import ajv from '../lib/schemas/ajvInstance';
-import createCustomerInputSchema from '../lib/schemas/createCustomerInputSchema';
+import ajv from '../lib/jsonSchemas/ajvInstance';
+import createCustomerInputSchema from '../lib/jsonSchemas/createCustomerInputSchema';
 
 const dynamodb = new AWS.DynamoDB.DocumentClient();
 

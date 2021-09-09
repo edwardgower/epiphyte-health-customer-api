@@ -4,8 +4,8 @@ import commonMiddleware from '../lib/commonMiddleware';
 import { getCustomerById } from '../lib/getCustomerById';
 import { generateUpdateQuery } from '../lib/generateUpdateQuery';
 import validator from '@middy/validator';
-import ajv from '../lib/schemas/ajvInstance';
-import updateCustomerInputSchema from '../lib/schemas/updateCustomerInputSchema';
+import ajv from '../lib/jsonSchemas/ajvInstance';
+import updateCustomerInputSchema from '../lib/jsonSchemas/updateCustomerInputSchema';
 
 const dynamodb = new AWS.DynamoDB.DocumentClient();
 
@@ -37,9 +37,6 @@ async function updateCustomer(event, context) {
     ExpressionAttributeValues,
     ReturnValues: 'ALL_NEW',
   };
-
-  console.log('************************ params **************************');
-  console.log(params);
 
   let updatedCustomer;
 

@@ -2,8 +2,8 @@ import AWS from 'aws-sdk';
 import createError from 'http-errors';
 import commonMiddleware from '../lib/commonMiddleware';
 import validator from '@middy/validator';
-import ajv from '../lib/schemas/ajvInstance';
-import getCustomerByEmailInputSchema from '../lib/schemas/getCustomerByEmailInputSchema';
+import ajv from '../lib/jsonSchemas/ajvInstance';
+import getCustomerByEmailInputSchema from '../lib/jsonSchemas/getCustomerByEmailInputSchema';
 
 const dynamodb = new AWS.DynamoDB.DocumentClient();
 

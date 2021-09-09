@@ -2,8 +2,8 @@ import AWS from 'aws-sdk';
 import createError from 'http-errors';
 import commonMiddleware from '../lib/commonMiddleware';
 import validator from '@middy/validator';
-import ajv from '../lib/schemas/ajvInstance';
-import getCustomersByLastNameInputSchema from '../lib/schemas/getCustomersByLastNameInputSchema';
+import ajv from '../lib/jsonSchemas/ajvInstance';
+import getCustomersByLastNameInputSchema from '../lib/jsonSchemas/getCustomersByLastNameInputSchema';
 
 const dynamodb = new AWS.DynamoDB.DocumentClient();
 
@@ -30,7 +30,7 @@ async function getCustomersByLastName(event, context) {
       ':PK': 'LN#',
       ':SK': 'LN#' + lastNameLower,
     },
-  }; 
+  };
 
   try {
     const result = await dynamodb.query(params).promise();
