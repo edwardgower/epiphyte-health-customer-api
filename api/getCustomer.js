@@ -1,6 +1,9 @@
 import createError from 'http-errors';
 import commonMiddleware from '../lib/commonMiddleware';
+import validator from '@middy/validator';
+import ajv from '../lib/jsonSchemas/ajvInstance';
 import { getCustomerById } from '../lib/getCustomerById';
+import getCustomerInputSchema from '../lib/jsonSchemas/getCustomerInputSchema';
 
 async function getCustomer(event, context) {
   // create the response variables
@@ -12,6 +15,8 @@ async function getCustomer(event, context) {
   try {
     const { id } = event.pathParameters;
     customer = await getCustomerById(id);
+    console.log('*** getCustomer with Expression ***');
+    console.log(customer);
   } catch (error) {
     throw new createError.InternalServerError(error);
   } finally {
@@ -31,4 +36,9 @@ async function getCustomer(event, context) {
   };
 }
 
-export const handler = commonMiddleware(getCustomer);
+export const handler = commonMiddleware(getCustomer).use(
+  validator({
+    inputSchema: getCustomerInputSchema,
+    ajvInstance: ajv,
+  })
+);
