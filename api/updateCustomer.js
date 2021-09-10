@@ -18,9 +18,27 @@ async function updateCustomer(event, context) {
   let body = event.body;
   let statusCode = 200;
   const headers = { 'Content-Type': 'application/json' };
-
+  // todo: clean this up.
+  const fieldsToReturn = {
+    customerId: true,
+    externalId: false,
+    ssn: false,
+    username: false,
+    email: true,
+    title: false,
+    firstName: true,
+    middleName: false,
+    lastName: true,
+    suffix: false,
+    gender: false,
+    dateOfBirth: false,
+    addresses: false,
+    phoneNumbers: false,
+    createdAt: false,
+    updatedAt: true,
+  };
   // get the customer item - error handling compeleted by getCustomerById
-  const customer = await getCustomerById(id);
+  const customer = await getCustomerById(id, fieldsToReturn);
   // todo this is here to use customer before we implement the logic to only update fields that have changed.
   console.log(customer);
 

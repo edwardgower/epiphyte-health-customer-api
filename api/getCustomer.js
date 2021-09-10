@@ -4,6 +4,8 @@ import validator from '@middy/validator';
 import ajv from '../lib/jsonSchemas/ajvInstance';
 import { getCustomerById } from '../lib/getCustomerById';
 import getCustomerInputSchema from '../lib/jsonSchemas/getCustomerInputSchema';
+import { convertDynamoObjectToClientObject } from '../lib/convertDynamoObjectToClientObject';
+import { customerDynamoDbSchema } from '../lib/dynamoDbSchemas/customerDynamoDbSchema';
 
 async function getCustomer(event, context) {
   // create the response variables
@@ -14,18 +16,21 @@ async function getCustomer(event, context) {
 
   try {
     const { id } = event.pathParameters;
-    customer = await getCustomerById(id);
-    console.log('*** getCustomer with Expression ***');
-    console.log(customer);
+    const dynamoCustomerObject = await getCustomerById(id, event.body);
+
+    console.log(event);
+
+    // convert the dynamodb object to a client object
+    customer = await convertDynamoObjectToClientObject(
+      dynamoCustomerObject,
+      customerDynamoDbSchema.clientFieldsMap
+    );
   } catch (error) {
     throw new createError.InternalServerError(error);
   } finally {
     // build the response in the schema the client expects
     body = JSON.stringify({
-      customerId: customer.ID1,
-      email: customer.ID5,
-      firstName: customer.Name2,
-      lastName: customer.Name4,
+      customer,
     });
   }
 
