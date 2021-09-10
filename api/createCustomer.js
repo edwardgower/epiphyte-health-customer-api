@@ -72,6 +72,7 @@ async function createCustomer(event, context) {
         ],
       })
       .promise();
+    // todo need to add in an update expression here.
   } catch (err) {
     console.log(event);
     console.log(err);
