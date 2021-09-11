@@ -29,9 +29,7 @@ async function getCustomer(event, context) {
     throw new createError.InternalServerError(error);
   } finally {
     // build the response in the schema the client expects
-    body = JSON.stringify({
-      customer,
-    });
+    body = JSON.stringify(customer);
   }
 
   return {

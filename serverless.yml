@@ -70,6 +70,33 @@ functions:
           path: /customer/{id}
           # authorizer: auth0
 
+  updateCustomerEmail:
+    # as email is unique it needs to be in a transaction
+    handler: api/updateCustomerEmail.handler
+    events:
+      - httpApi:
+          method: PATCH
+          path: /customer/{id}/email
+          # authorizer: auth0
+
+  updateCustomerUsername:
+    # as username is unique it needs to be in a transaction
+    handler: api/updateCustomerUsername.handler
+    events:
+      - httpApi:
+          method: PATCH
+          path: /customer/{id}/username
+          # authorizer: auth0
+
+  updateCustomerExternalId:
+    # as externalId is unique it needs to be in a transaction
+    handler: api/updateCustomerExternalId.handler
+    events:
+      - httpApi:
+          method: PATCH
+          path: /customer/{id}/externalId
+          # authorizer: auth0
+
   getCustomerById:
     handler: lib/getCustomerById.getCustomerById
 
